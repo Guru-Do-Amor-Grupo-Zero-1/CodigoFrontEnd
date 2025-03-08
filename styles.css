@@ -1,0 +1,285 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #fce4e4;
+    text-align: center;
+    margin: 40px;
+    padding-top: 80px;
+}
+
+.container {
+    width: 100%;
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 20px;
+    height: 100vh; /* Garante que a altura ocupe toda a altura da tela */
+}
+
+.box {
+    background: #e48b8b;
+    padding: 30px;
+    border-radius: 20px;
+    margin: 40px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.form-box, .users-box, .history-box {
+    flex: 1;
+    max-width: 30%;
+    padding: 20px;
+}
+
+.users-box {
+    flex: 1;
+    max-width: 40%; /* Permite que o container dos usuários ocupe mais espaço */
+    padding: 20px;
+    box-sizing: border-box;
+    margin-top: 150px; /* Remove a margem superior para separar mais dos outros containers */
+    margin-bottom: 200px; /* Adiciona um espaçamento inferior para distanciar dos outros */
+    
+}
+input, button {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.signo-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5px;
+}
+
+.signo {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#idade {
+    width: 30%;
+    flex: 0.5;
+}
+
+#telefone {
+    width: 50%;
+    flex: 1;
+}
+
+.input-group {
+    display: flex;
+    gap: 40px; /* Espaço entre os inputs */
+    margin-right: 5px;
+    margin-top: 25px;
+}
+
+.input-group input {
+    flex: 1; /* Faz com que ambos os inputs ocupem o mesmo espaço */
+}
+
+.input-idade {
+    flex: 0.5; /* Faz com que o input de idade ocupe menos espaço */
+}
+
+.input-telefone {
+    flex: 1; /* O input de telefone ocupa o restante do espaço */
+}
+
+input {
+    margin-bottom: 20px; /* Espaço entre os inputs fora do grupo */
+    width: 100%; /* Faz os inputs ocuparem toda a largura disponível */
+    background-color: #F6E4E4;
+}
+
+#nome {
+    width: 95%;
+}
+
+#endereco {
+    width: 95%;
+}
+
+#numero {
+    width: 95%;
+}
+
+#cep {
+    width: 95%;
+}
+h3
+{
+    color: white; /* Torna o texto branco */
+    font-family: 'Inter', sans-serif; /* Aplica a fonte Inter */
+    font-weight: 800; /* Extra bold */
+ 
+}
+h2 {
+    color: white; /* Torna o texto branco */
+    font-family: 'Inter', sans-serif; /* Aplica a fonte Inter */
+    font-weight: 800; /* Extra bold */
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    top: 25%; /* Alinha os botões no centro verticalmente */
+    left: 51%; /* Centraliza horizontalmente */
+    transform: translate(-50%, -50%); /* Centraliza exatamente no meio */
+    z-index: 10; /* Garante que os botões fiquem na frente das outras divs */
+}
+
+.button-container button {
+    margin: 30px; /* Espaçamento entre os botões */
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.button-container button.rosa {
+    background-color: #e48b8b; /* Cor de fundo rosa */
+    color: white; /* Texto branco */
+}
+
+.button-container button.azul {
+    background-color: #4e8fd7; /* Cor de fundo azul */
+    color: white; /* Texto branco */
+}
+
+.button-container button:hover {
+    opacity: 0.8; /* Efeito de opacidade no hover */
+}
+
+label {
+    display: block;
+    font-size: 10px; /* Deixa o rótulo bem pequeno */
+    color: #555; /* Cor mais suave para os rótulos */
+    font-weight: normal; /* Torna o texto não tão em negrito */
+    margin-bottom: 2px; /* Aproxima o rótulo do campo de entrada */
+    text-align: left;
+}
+
+#signos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px; /* Espaçamento entre os signos */
+    margin-bottom: 40px;
+}
+
+.signo {
+    background-color: white;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    width: calc(16.66% - 10px); /* 6 itens na fileira, com espaçamento */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column; /* Organiza o nome em cima e a imagem embaixo */
+    align-items: center;
+    margin-top: 15px;
+}
+
+.signo-nome {
+    font-size: 12px;
+    font-weight: bold;
+    display: block; /* Para garantir que o nome fique em cima da imagem */
+    margin-top: -20px; /* Distância do topo */
+    color: #F6E4E4;
+    margin-bottom: 10px;
+}
+
+.signo-imagem {
+    width: 50px;  /* Ajuste o tamanho conforme necessário */
+    height: 50px;
+    object-fit: contain; /* Garante que a imagem seja dimensionada sem distorção */
+}
+#sabsigno {
+    display: block;
+    margin: 0 auto; /* Centraliza horizontalmente */
+    padding: 10px 20px;
+    background-color: #F6E4E4;
+    color: rgb(0, 0, 0);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 45%; /* Define a largura como 50% do tamanho disponível */
+}
+#dataEscolhida {
+    display: block;
+    margin: 10px auto;
+    padding: 10px 20px;
+    background-color: #5a5a5a;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 30%; /* Define a largura como 50% do tamanho disponível */
+    
+}
+#cadastrar {
+    margin-top: 20px; /* Espaçamento acima do botão */
+    display: block;
+    margin-left: auto;
+    margin-right: auto; /* Centraliza horizontalmente */
+    padding: 12px 24px;
+    background-color: #F6E4E4;
+    color: rgb(0, 0, 0);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 45%; /* Define a largura */
+}
+/* Estilização do cabeçalho */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #e48b8b;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+    font-size: 24px;
+    font-family: 'Inter', sans-serif;
+    font-weight: bold;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    height: 12%;
+    transition: top 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+.header.hidden {
+    top: -100px;
+    opacity: 0;
+}
+/* Estilo do rodapé */
+.footer {
+    display: none; /* Inicialmente escondido */
+    position: fixed;  /* Fixa na parte inferior */
+    left: 0;
+    bottom: 0;
+    height: 3%;
+    width: 100%;
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    z-index: 1000;  /* Para garantir que fique acima de outros conteúdos */
+}
+
+/* Estilo do texto no footer */
+.footer p {
+    margin: 0;
+}
