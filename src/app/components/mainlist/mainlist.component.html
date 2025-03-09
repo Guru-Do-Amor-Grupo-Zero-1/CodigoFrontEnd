@@ -1,0 +1,55 @@
+<body>
+    <header class="header">
+        <h1>Cadastro de Usuários</h1>
+    </header>
+    
+    <div class="button-container">
+        <button title="Será que pode encontrar o amor da sua vida?" 
+        class="rosa" (onclick)="abrirModal()">Teste sua Compatibilidade</button>
+        <button title="Deixe as estrelas ditarem seu futuro!!"  
+        class="azul" (onclick)="abrirModal()">Compatibilidade com Signos!!</button>
+    </div>
+    <div class="container">
+        
+        <div class="box form-box">
+            <h2>Cadastre seu Usuário</h2>
+            <input type="text" id="nome" placeholder="Nome">
+            <div class="input-group">
+                <input type="number" id="idade" placeholder="Idade" class="input-idade">
+                <input type="text" id="telefone" placeholder="Telefone" class="input-telefone" maxlength="15">
+            </div>
+            <input type="text" id="endereco" placeholder="Endereço">
+            <div class="input-group">
+                <input type="text" id="numero" placeholder="Número">
+                <input type="text" id="cep" placeholder="CEP">
+            </div>
+            <h3>Selecione o Signo</h3>
+            <div class="signo-container" id="signos"></div>
+            <h3>Não sabe seu signo?</h3>
+            <button id="sabsigno" onclick="abrirAgenda()">Clique aqui e descubra</button>
+            <input type="date" id="dataEscolhida" style="display:none;" onchange="descobrirSigno()">
+            <div id="resultado"></div>
+            
+            <!-- Botão para cadastrar o usuário -->
+            <button id="cadastrar" onclick="cadastrarUsuario()">Cadastrar Usuário</button>
+        </div>
+        
+        <div class="box users-box">
+            
+            <h2>Usuários Cadastrados</h2>
+            <input type="text" placeholder="Pesquise pelo nome">
+            <div id="users-list"></div>
+        </div>
+        
+        <div class="box history-box">
+            <h2>Histórico</h2>
+            <input type="text" placeholder="Pesquise pelo nome">
+            <div id="history-list"></div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Cadastro de Usuários. Todos os direitos reservados.</p>
+    </footer>
+
+</body>
