@@ -14,7 +14,6 @@ body {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-
 }
 
 .box {
@@ -57,7 +56,7 @@ input, button {
 .signo-container {
     display: grid;
     grid-template-columns: repeat(6, 1fr); /* 6 colunas */
-    gap: 15px; /* Espaçamento entre os itens */
+    gap: 20px; /* Espaçamento entre os itens */
     justify-items: center;
     max-width: 600px; /* Define um limite para o container */
     margin: 0 auto; /* Centraliza na tela */
@@ -505,18 +504,8 @@ label {
   }
   
   /* Estilo do título dentro do modal */
-  h2 {
-    font-size: 1.8rem;
-    color: #333;
-    margin-bottom: 15px;
-    font-weight: bold;
-  }
   
-  h3 {
-    font-size: 1.4rem;
-    color: #333;
-    margin-bottom: 10px;
-  }
+
   
   /* Botão de teste de compatibilidade */
   .compatibilidade button {
@@ -531,33 +520,8 @@ label {
   }
   
   /* Modal Overlay */
-.modal-overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.6);
-    justify-content: center;
-    align-items: center;
-    transition: opacity 0.3s ease-in-out;
-  }
+
   
-  /* Modal Content */
-  .modal-content {
-    background: #fff;
-    padding: 40px;
-    border-radius: 12px;
-    text-align: center;
-    min-width: 50%;
-    min-height: 60%;
-    max-width: 800px;
-    max-height: 80%;
-    position: relative;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    animation: fadeIn 0.5s ease-in-out;
-  }
   
   /* Modal Header */
   .modal-header {
@@ -675,9 +639,8 @@ label {
     background-color: #0056b3;
   }
   
-  /* Modal Content */
   .modal-content {
-    background: #fff;
+    background: #ffffff; /* Cor de fundo branca */
     padding: 40px;
     border-radius: 12px;
     text-align: center;
@@ -688,7 +651,15 @@ label {
     position: relative;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     animation: fadeIn 0.5s ease-in-out;
-  }
+}
+#modalSignos .modal-content {
+    background: #4e8fd7; /* Azul claro */
+}
+
+#modalCompatibilidade .modal-content {
+    background: #e48b8b;; /* Rosa claro */
+}
+
   .compatibilidade button {
     padding: 12px 25px;
     background-color: #007BFF;
@@ -719,23 +690,31 @@ label {
 .modal.show {
     display: block;
   }
+  #modalSignos .modal-content {
+    width: 450px; /* Ajuste específico para este modal, se necessário */
+  }
   
   /* Estilo de fundo da modal */
   .modal-overlay {
+    display: none;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5); /* Fundo semitransparente */
-    z-index: 9998; /* Um pouco abaixo da modal, mas acima dos botões */
-  }
+    background: rgba(0, 0, 0, 0.6); /* Fundo escuro semitransparente */
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.3s ease-in-out;
+    z-index: 9998;
+}
+
   /* Estilização da Caixa de Histórico */
   
   .history-box h2 {
-    color: #333;
-    font-size: 22px;
-    margin-bottom: 15px;
+    color: white; /* Torna o texto branco */
+    font-family: 'Inter', sans-serif; /* Aplica a fonte Inter */
+    font-weight: 800; /* Extra bold */
   }
   
   /* Estilização do Input */
@@ -801,4 +780,7 @@ label {
     overflow-y: auto;
     padding-right: 10px;
   }
-  
+  #tittle{
+    color: #222;
+
+  }

@@ -5,7 +5,7 @@ import { UsuarioService } from '../../services/usuario.service';
 import { Usuario } from '../../models/usuario.model';
 import { MatchService } from '../../services/match.service';
 import { MatchResponse } from '../../models/match.mode';
-
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-mainlist',
   standalone: true,
@@ -17,21 +17,22 @@ export class MainlistComponent implements OnInit {
   matchService = inject(MatchService);
 
   signos = [
-    { nome: 'Aries', icone: '♈', cor: 'red', inicio: '03-21', fim: '04-19' },
-    { nome: 'Touro', icone: '♉', cor: 'green', inicio: '04-20', fim: '05-20' },
-    { nome: 'Gêmeos', icone: '♊', cor: 'yellow', inicio: '05-21', fim: '06-20' },
-    { nome: 'Cancer', icone: '♋', cor: 'silver', inicio: '06-21', fim: '07-22' },
-    { nome: 'Leao', icone: '♌', cor: 'orange', inicio: '07-23', fim: '08-22' },
-    { nome: 'Virgem', icone: '♍', cor: 'lightblue', inicio: '08-23', fim: '09-22' },
-    { nome: 'Libra', icone: '♎', cor: 'aqua', inicio: '09-23', fim: '10-22' },
-    { nome: 'Escorpiao', icone: '♏', cor: 'indigo', inicio: '10-23', fim: '11-21' },
-    { nome: 'Sagitario', icone: '♐', cor: 'purple', inicio: '11-22', fim: '12-21' },
-    { nome: 'Capricornio', icone: '♑', cor: 'brown', inicio: '12-22', fim: '01-19' },
-    { nome: 'Aquario', icone: '♒', cor: 'blue', inicio: '01-20', fim: '02-18' },
-    { nome: 'Peixes', icone: '♓', cor: 'fuchsia', inicio: '02-19', fim: '03-20' }
+    { nome: 'Aries', icone: '♈', cor: '#9a6fc2', inicio: '03-21', fim: '04-19', selected: false },
+    { nome: 'Touro', icone: '♉', cor: '#9a6fc2', inicio: '04-20', fim: '05-20', selected: false },
+    { nome: 'Gemeos', icone: '♊', cor: '#9a6fc2', inicio: '05-21', fim: '06-20', selected: false },
+    { nome: 'Cancer', icone: '♋', cor: '#9a6fc2', inicio: '06-21', fim: '07-22', selected: false },
+    { nome: 'Leao', icone: '♌', cor: '#9a6fc2', inicio: '07-23', fim: '08-22', selected: false },
+    { nome: 'Virgem', icone: '♍', cor: '#9a6fc2', inicio: '08-23', fim: '09-22', selected: false },
+    { nome: 'Libra', icone: '♎', cor: '#9a6fc2', inicio: '09-23', fim: '10-22', selected: false },
+    { nome: 'Escorpiao', icone: '♏', cor: '#9a6fc2', inicio: '10-23', fim: '11-21', selected: false },
+    { nome: 'Sagitario', icone: '♐', cor: '#9a6fc2', inicio: '11-22', fim: '12-21', selected: false },
+    { nome: 'Capricornio', icone: '♑', cor: '#9a6fc2', inicio: '12-22', fim: '01-19', selected: false },
+    { nome: 'Aquario', icone: '♒', cor: '#9a6fc2', inicio: '01-20', fim: '02-18', selected: false },
+    { nome: 'Peixes', icone: '♓', cor: '#9a6fc2', inicio: '02-19', fim: '03-20', selected: false }
   ];
 
   usuarios: Usuario[] = [];
+  
   selectedSigno: string = '';
   resultado: string = '';
   isHeaderVisible: boolean = true;
@@ -55,7 +56,8 @@ export class MainlistComponent implements OnInit {
   compatibilidadeResultadoSignos: string = ''
   signo1: string = '';  // Defina um valor inicial adequado
   signo2: string = '';  // Defina um valor inicial adequado
-  
+  matchResponse: MatchResponse | null = null;
+
   
   
 
@@ -97,7 +99,15 @@ export class MainlistComponent implements OnInit {
 
   selecionarSigno(signo: string): void {
     this.selectedSigno = signo;
-    alert('Você selecionou: ' + signo);
+    Swal.fire({
+      icon: 'success',
+      title: 'Signo Selecionado',
+      text: 'Você selecionou: ' + signo,
+      confirmButtonText: 'OK',
+      confirmButtonColor: '#3085d6',  // Cor personalizada para o botão
+      background: '#d4edda',  // Cor de fundo suave
+      showCloseButton: true  // Adiciona botão de fechar
+    });
   }
 
   abrirAgenda(): void {
@@ -143,12 +153,26 @@ export class MainlistComponent implements OnInit {
  cadastrarUsuario(): void {
   const { nomeUsuario, idade, telefone, endereco, numero, cep } = this.novoUsuario;
 
-  // Verifica se todos os campos necessários foram preenchidos, incluindo o signo.
   if (!nomeUsuario || !idade || !telefone || !endereco || !numero || !cep || !this.selectedSigno) {
-    alert('Todos os campos devem ser preenchidos, incluindo o signo!');
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Todos os campos devem ser preenchidos, incluindo o signo!',
+      confirmButtonText: 'OK'
+    });
     return;
   }
 
+  // Verifica se a idade é menor que 18
+  if (idade < 18) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Idade inválida',
+      text: 'Você precisa ter 18 anos ou mais para se cadastrar.',
+      confirmButtonText: 'Entendi'
+    });
+    return;
+  }
   const novoUsuario: Usuario = {
     nomeUsuario: nomeUsuario,
     idade: idade,
@@ -207,15 +231,21 @@ export class MainlistComponent implements OnInit {
     }
   }
   
-  
+  resultadoSignos: any[] = []; // Pode ser um array ou objeto conforme necessário
 
-  fecharModal(modalId: string) {
-    const modal = document.getElementById(modalId);
-    if (modal) {
-      modal.style.display = 'none';
+  fecharModal(modalId: string): void {
+    // Limpar os dados específicos da modal
+    this.resultadoSignos = [];
+    this.compatibilidadeResultado = '';
+    this.distancia = '';
+    this.matchResponse = null;  // Limpar o matchResponse caso seja usado na modal
+  
+    // Fechar a modal
+    const modalElement = document.getElementById(modalId);
+    if (modalElement) {
+      modalElement.style.display = 'none';
     }
   }
-
   filterUsuarios(searchNome?: string): any[] {
     if (searchNome) {
       // Filtra os usuários com base no nome
@@ -240,29 +270,27 @@ export class MainlistComponent implements OnInit {
   }
 
   verificarCompatibilidade() {
-  if (this.selectedUsuario1 && this.selectedUsuario2) {
-    this.matchService.verificarCompatibilidade(this.selectedUsuario1, this.selectedUsuario2).subscribe({
-      next: (data: MatchResponse) => {
-        console.log(data);
-
-        if (this.selectedUsuario1 && this.selectedUsuario2) {
-          // Armazenando o valor de compatibilidade
+    if (this.selectedUsuario1 && this.selectedUsuario2) {
+      this.matchService.verificarCompatibilidade(this.selectedUsuario1, this.selectedUsuario2).subscribe({
+        next: (data: MatchResponse) => {
+          console.log(data);
+          // Para a modal de signos, armazenamos a resposta completa:
+          this.matchResponse = data;
+          // Para a modal normal, atualizamos as variáveis específicas:
           this.compatibilidadeResultado = data.compatibilidade;
-          this.compatibilidadeResultadoTexto = `Compatibilidade entre ${this.selectedUsuario1?.nomeUsuario} e ${this.selectedUsuario2?.nomeUsuario}: ${data.compatibilidade}%`;
-          
-          // Exibindo a distância diretamente do backend
           this.distancia = data.distancia;
+        },
+        error: (erro) => {
+          console.error('Erro ao verificar compatibilidade:', erro);
+          this.compatibilidadeResultadoTexto = 'Erro ao verificar compatibilidade.';
         }
-      },
-      error: (erro) => {
-        console.error('Erro ao verificar compatibilidade:', erro);
-        this.compatibilidadeResultadoTexto = 'Erro ao verificar compatibilidade.';
-      }
-    });
-  } else {
-    this.compatibilidadeResultadoTexto = 'Selecione dois usuários para verificar a compatibilidade.';
+      });
+    } else {
+      this.compatibilidadeResultadoTexto = 'Selecione dois usuários para verificar a compatibilidade.';
+    }
   }
-}
+  
+  
 
 
   compatibilidadeResultadoTexto: string = ''; // Para armazenar o resultado como string

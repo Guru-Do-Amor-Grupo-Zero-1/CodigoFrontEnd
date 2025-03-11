@@ -25,6 +25,8 @@
               class="azul" (click)="abrirModal('modalSignos')">
         Compatibilidade com Signos!!
       </button>
+    </div>
+
       <div id="modalSignos" class="modal-overlay" (click)="fecharModal('modalSignos')">
         <div class="modal-content" (click)="$event.stopPropagation()">
           <span class="close" (click)="fecharModal('modalSignos')">&times;</span>
@@ -33,7 +35,7 @@
       
           <div class="compatibilidade-container">
             <div class="usuario-container">
-              <h3>Usuário 1</h3>
+              <h3 id="tittle">Usuário 1</h3>
               <input type="text" [(ngModel)]="searchNome1" placeholder="Pesquisar Usuário 1..." class="search-input" />
               <select (change)="selecionarUsuario($event, 'usuario1')" class="usuario-select">
                 <option *ngFor="let usuario of filterUsuarios(searchNome1)" [value]="usuario.nomeUsuario">
@@ -52,7 +54,7 @@
             </div>
       
             <div class="usuario-container">
-              <h3>Usuário 2</h3>
+              <h3 id="tittle">Usuário 2</h3>
               <input type="text" [(ngModel)]="searchNome2" placeholder="Pesquisar Usuário 2..." class="search-input" />
               <select (change)="selecionarUsuario($event, 'usuario2')" class="usuario-select">
                 <option *ngFor="let usuario of filterUsuarios(searchNome2)" [value]="usuario.nomeUsuario">
@@ -62,74 +64,69 @@
             </div>
           </div>
       
-          <div class="resultado-container">
+          <div class="resultado-container" *ngIf="matchResponse">
             <h3>Resultado da Compatibilidade</h3>
-            <p>{{ compatibilidadeResultadoSignos }}</p>
-            <p><strong>Signo de {{ usuario1 }}:</strong> {{ signo1 }}</p>
-            <p><strong>Signo de {{ usuario2 }}:</strong> {{ signo2 }}</p>
+            <p><strong>Usuário 1:</strong> {{ matchResponse.usuario1 }}</p>
+            <p><strong>Usuário 2:</strong> {{ matchResponse.usuario2 }}</p>
+            <p><strong>Compatibilidade:</strong> {{ matchResponse.compatibilidade }}</p>
+            <p><strong>Signos:</strong> {{ matchResponse.signos }}</p>
+            <p><strong>Mensagem:</strong> {{ matchResponse.mensagem }}</p>
+            <p><strong>Distância:</strong> {{ matchResponse.distancia }}</p>
           </div>
       
           <button class="close-btn" (click)="fecharModal('modalSignos')">Fechar</button>
         </div>
       </div>
-
-
-
-
-
-
-
-    </div>
-    <div id="modalCompatibilidade" class="modal-overlay" (click)="fecharModal('modalCompatibilidade')">
-      <div class="modal-content" (click)="$event.stopPropagation()">
-        <span class="close" (click)="fecharModal('modalCompatibilidade')">&times;</span>
-        <h2>Teste sua Compatibilidade</h2>
-        <p>Descubra se vocês são compatíveis!</p>
     
-        <div class="compatibilidade-container">
-          <div class="usuario-container">
-            <h3>Usuário 1</h3>
-            <input type="text" [(ngModel)]="searchNome1" placeholder="Pesquisar Usuário 1..." class="search-input" />
-<select (change)="selecionarUsuario($event, 'usuario1')" class="usuario-select">
-  <option *ngFor="let usuario of filterUsuarios(searchNome1)" [value]="usuario.nomeUsuario">
-    {{ usuario.nomeUsuario }}
-  </option>
-</select>
+
+      <div id="modalCompatibilidade" class="modal-overlay" (click)="fecharModal('modalCompatibilidade')">
+        <div class="modal-content" (click)="$event.stopPropagation()">
+          <span class="close" (click)="fecharModal('modalCompatibilidade')">&times;</span>
+          <h2>Teste sua Compatibilidade</h2>
+          
+          <!-- Área de seleção dos usuários permanece para a pesquisa -->
+          <div class="compatibilidade-container">
+            <div class="usuario-container">
+              <h3 id="tittle">Usuário 1</h3>
+              <input type="text" [(ngModel)]="searchNome1" placeholder="Pesquisar Usuário 1..." class="search-input" />
+              <select (change)="selecionarUsuario($event, 'usuario1')" class="usuario-select">
+                <option *ngFor="let usuario of filterUsuarios(searchNome1)" [value]="usuario.nomeUsuario">
+                  {{ usuario.nomeUsuario }}
+                </option>
+              </select>
+            </div>
             
-          </div>
-    
-          <div class="botao-container">
-            <button (click)="verificarCompatibilidade()">
-              <span class="coracao" [ngClass]="{'cheio': compatibilidade >= 50, 'vazio': compatibilidade < 50}">
-                &#10084;
-              </span>
-              Testar Compatibilidade
-            </button>
-          </div>
-    
-          <div class="usuario-container">
-            <h3>Usuário 2</h3>
-            <input type="text" [(ngModel)]="searchNome2" placeholder="Pesquisar Usuário 2..." class="search-input" />
-<select (change)="selecionarUsuario($event, 'usuario2')" class="usuario-select">
-  <option *ngFor="let usuario of filterUsuarios(searchNome2)" [value]="usuario.nomeUsuario">
-    {{ usuario.nomeUsuario }}
-  </option>
-</select>
+            <div class="botao-container">
+              <button (click)="verificarCompatibilidade()">
+                <span class="coracao" [ngClass]="{'cheio': compatibilidade >= 50, 'vazio': compatibilidade < 50}">
+                  &#10084;
+                </span>
+                Testar Compatibilidade
+              </button>
+            </div>
             
+            <div class="usuario-container">
+              <h3 id="tittle">Usuário 2</h3>
+              <input type="text" [(ngModel)]="searchNome2" placeholder="Pesquisar Usuário 2..." class="search-input" />
+              <select (change)="selecionarUsuario($event, 'usuario2')" class="usuario-select">
+                <option *ngFor="let usuario of filterUsuarios(searchNome2)" [value]="usuario.nomeUsuario">
+                  {{ usuario.nomeUsuario }}
+                </option>
+              </select>
+            </div>
           </div>
+          
+          <!-- Resultado exibindo somente a porcentagem da compatibilidade e a distância -->
+          <div class="resultado-container">
+            <h3>Resultado da Compatibilidade</h3>
+            <p><strong>Compatibilidade:</strong> {{ compatibilidadeResultado }}</p>
+            <p><strong>Distância do seu parceiro:</strong> {{ distancia }}</p>
+          </div>
+          
+          <button class="close-btn" (click)="fecharModal('modalCompatibilidade')">Fechar</button>
         </div>
-    
-        <!-- Resultado da compatibilidade centralizado -->
-        <div class="resultado-container">
-          <h3>Resultado da Compatibilidade</h3>
-          <p>{{ compatibilidadeResultado }}</p>
-          <!-- Exibe a distância entre os usuários -->
-          <p><strong>Distância do seu parceiro:</strong> {{ distancia }}</p>
-        </div>
-    
-        <button class="close-btn" (click)="fecharModal('modalCompatibilidade')">Fechar</button>
       </div>
-    </div>
+      
     
     
     
