@@ -14,22 +14,28 @@ export class UsuarioService {
 
   // Método para listar usuários
   listarUsuarios(): Observable<Usuario[]> {
-    return this.http.get<Usuario[]>(`${this.apiUrl}/listar`);
+    return this.http.get<Usuario[]>(`${this.apiUrl}`);
   }
+  
 
   // Método para adicionar um usuário
   adicionarUsuario(usuario: Usuario): Observable<Usuario> {
-    console.log(usuario);
     return this.http.post<Usuario>(`${this.apiUrl}/adicionar`, usuario);
   }
+  
 
   // Método para deletar um usuário
   deletarUsuario(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/deletar/${id}`);
   }
 
-  // Método para atualizar o signo de um usuário
+  // Método para atualizar um usuário
+  atualizarUsuario(usuario: Usuario): Observable<Usuario> {
+    return this.http.put<Usuario>(`${this.apiUrl}/atualizar/${usuario.id}`, usuario);
+  }
+
+  // Método para atualizar apenas o signo do usuário
   atualizarSigno(id: number, signo: string): Observable<Usuario> {
-    return this.http.put<Usuario>(`${this.apiUrl}/atualizarSigno/${id}`, { signo });
+    return this.http.put<Usuario>(`${this.apiUrl}/atualizarSigno/${id}`, { signoUsuario: signo });
   }
 }

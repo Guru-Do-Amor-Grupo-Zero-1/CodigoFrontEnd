@@ -1,110 +1,209 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro de Usuários</title>
+  <link rel="stylesheet" href="styles.css"> <!-- Adicione seu arquivo CSS -->
+</head>
 <body>
+  <div class="body">
+  
     <header class="header" [class.hidden]="!isHeaderVisible">
-        <h1>Cadastro de Usuários</h1>
-      </header>
+      <h1>Cadastro de Usuários</h1>
+    </header>
     
-      <div class="button-container">
-        <!-- Botão para abrir a modal de Compatibilidade Normal -->
-        <button title="Será que pode encontrar o amor da sua vida?" 
-                class="rosa" (click)="abrirModal('modalCompatibilidade')">
-          Teste sua Compatibilidade
-        </button>
-      
-        <!-- Botão para abrir a modal de Compatibilidade com Signos -->
-        <button title="Deixe as estrelas ditarem seu futuro!!"  
-                class="azul" (click)="abrirModal('modalSignos')">
-          Compatibilidade com Signos!!
-        </button>
-      </div>
-      
-      <div id="modalCompatibilidade" class="modal-overlay" (click)="fecharModal('modalCompatibilidade')">
+    <div class="button-container">
+      <!-- Botão para abrir a modal de Compatibilidade Normal -->
+      <button title="Será que pode encontrar o amor da sua vida?" 
+              class="rosa" (click)="abrirModal('modalCompatibilidade')">
+        Teste sua Compatibilidade
+      </button>
+    
+      <!-- Botão para abrir a modal de Compatibilidade com Signos -->
+      <button title="Deixe as estrelas ditarem seu futuro!!"  
+              class="azul" (click)="abrirModal('modalSignos')">
+        Compatibilidade com Signos!!
+      </button>
+      <div id="modalSignos" class="modal-overlay" (click)="fecharModal('modalSignos')">
         <div class="modal-content" (click)="$event.stopPropagation()">
-          <span class="close" (click)="fecharModal('modalCompatibilidade')">&times;</span>
-          <h2>Teste sua Compatibilidade</h2>
-          <p>Descubra se vocês são compatíveis!</p>
-          <input type="text" [(ngModel)]="searchNome" placeholder="Pesquisar por nome..." />
-          
-          <!-- Container para os dois usuários -->
+          <span class="close" (click)="fecharModal('modalSignos')">&times;</span>
+          <h2>Compatibilidade com Signos</h2>
+          <p>Descubra se seus signos combinam!</p>
+      
           <div class="compatibilidade-container">
-            <!-- Usuário 1 -->
             <div class="usuario-container">
               <h3>Usuário 1</h3>
-              <div *ngFor="let usuario of filterUsuarios()">
-                <button (click)="selecionarUsuario(usuario, 'usuario1')">{{ usuario.nome }}</button>
-              </div>
+              <input type="text" [(ngModel)]="searchNome1" placeholder="Pesquisar Usuário 1..." class="search-input" />
+              <select (change)="selecionarUsuario($event, 'usuario1')" class="usuario-select">
+                <option *ngFor="let usuario of filterUsuarios(searchNome1)" [value]="usuario.nomeUsuario">
+                  {{ usuario.nomeUsuario }}
+                </option>
+              </select>
             </div>
-            
-            <!-- Espaço para testar a compatibilidade -->
-            <div class="compatibilidade">
-              <h3>Teste de Compatibilidade</h3>
-              <p>Resultado da compatibilidade: {{ compatibilidadeResultado }}</p>
-              <button (click)="testarCompatibilidade()">Testar Compatibilidade</button>
+      
+            <div class="botao-container">
+              <button (click)="verificarCompatibilidade()">
+                <span class="estrela" [ngClass]="{'cheio': compatibilidadeSignos >= 50, 'vazio': compatibilidadeSignos < 50}">
+                  &#9733;
+                </span>
+                Testar Compatibilidade
+              </button>
             </div>
-            
-            <!-- Usuário 2 -->
+      
             <div class="usuario-container">
               <h3>Usuário 2</h3>
-              <div *ngFor="let usuario of filterUsuarios()">
-                <button (click)="selecionarUsuario(usuario, 'usuario1')">{{ usuario.nome }}</button>
-
-              </div>
+              <input type="text" [(ngModel)]="searchNome2" placeholder="Pesquisar Usuário 2..." class="search-input" />
+              <select (change)="selecionarUsuario($event, 'usuario2')" class="usuario-select">
+                <option *ngFor="let usuario of filterUsuarios(searchNome2)" [value]="usuario.nomeUsuario">
+                  {{ usuario.nomeUsuario }}
+                </option>
+              </select>
             </div>
           </div>
       
-          <button (click)="fecharModal('modalCompatibilidade')">Fechar</button>
+          <div class="resultado-container">
+            <h3>Resultado da Compatibilidade</h3>
+            <p>{{ compatibilidadeResultadoSignos }}</p>
+            <p><strong>Signo de {{ usuario1 }}:</strong> {{ signo1 }}</p>
+            <p><strong>Signo de {{ usuario2 }}:</strong> {{ signo2 }}</p>
+          </div>
+      
+          <button class="close-btn" (click)="fecharModal('modalSignos')">Fechar</button>
         </div>
       </div>
+
+
+
+
+
+
+
+    </div>
+    <div id="modalCompatibilidade" class="modal-overlay" (click)="fecharModal('modalCompatibilidade')">
+      <div class="modal-content" (click)="$event.stopPropagation()">
+        <span class="close" (click)="fecharModal('modalCompatibilidade')">&times;</span>
+        <h2>Teste sua Compatibilidade</h2>
+        <p>Descubra se vocês são compatíveis!</p>
+    
+        <div class="compatibilidade-container">
+          <div class="usuario-container">
+            <h3>Usuário 1</h3>
+            <input type="text" [(ngModel)]="searchNome1" placeholder="Pesquisar Usuário 1..." class="search-input" />
+<select (change)="selecionarUsuario($event, 'usuario1')" class="usuario-select">
+  <option *ngFor="let usuario of filterUsuarios(searchNome1)" [value]="usuario.nomeUsuario">
+    {{ usuario.nomeUsuario }}
+  </option>
+</select>
+            
+          </div>
+    
+          <div class="botao-container">
+            <button (click)="verificarCompatibilidade()">
+              <span class="coracao" [ngClass]="{'cheio': compatibilidade >= 50, 'vazio': compatibilidade < 50}">
+                &#10084;
+              </span>
+              Testar Compatibilidade
+            </button>
+          </div>
+    
+          <div class="usuario-container">
+            <h3>Usuário 2</h3>
+            <input type="text" [(ngModel)]="searchNome2" placeholder="Pesquisar Usuário 2..." class="search-input" />
+<select (change)="selecionarUsuario($event, 'usuario2')" class="usuario-select">
+  <option *ngFor="let usuario of filterUsuarios(searchNome2)" [value]="usuario.nomeUsuario">
+    {{ usuario.nomeUsuario }}
+  </option>
+</select>
+            
+          </div>
+        </div>
+    
+        <!-- Resultado da compatibilidade centralizado -->
+        <div class="resultado-container">
+          <h3>Resultado da Compatibilidade</h3>
+          <p>{{ compatibilidadeResultado }}</p>
+          <!-- Exibe a distância entre os usuários -->
+          <p><strong>Distância do seu parceiro:</strong> {{ distancia }}</p>
+        </div>
+    
+        <button class="close-btn" (click)="fecharModal('modalCompatibilidade')">Fechar</button>
+      </div>
+    </div>
+    
+    
+    
+    
+    
     
     <div class="container">
-        
-        <div class="box form-box">
-            <h2>Cadastre seu Usuário</h2>
-            <input type="text" id="nome" placeholder="Nome">
-            <div class="input-group">
-              <input type="number" id="idade" placeholder="Idade" class="input-idade">
-              <input type="text" id="telefone" placeholder="Telefone" class="input-telefone" maxlength="15">
-            </div>
-            <input type="text" id="endereco" placeholder="Endereço">
-            <div class="input-group">
-              <input type="text" id="numero" placeholder="Número">
-              <input type="text" id="cep" placeholder="CEP">
-            </div>
-            <h3>Selecione o Signo</h3>
-<div class="signo-container">
-  <div *ngFor="let signo of signos" class="signo-item" 
-       [style.backgroundColor]="signo.cor" (click)="selecionarSigno(signo.nome)">
-    <img [src]="signo.imagem" alt="{{ signo.nome }}" />
-    <p>{{ signo.nome }}</p>
-  </div>
-</div>
-
-            <h3>Não sabe seu signo?</h3>
-            <button id="sabsigno" (click)="abrirAgenda()">Clique aqui e descubra</button>
-            <input type="date" id="dataEscolhida" style="display:none;" (change)="descobrirSigno($event)">
-            <div id="resultado">{{ resultado }}</div>
-            
-            <!-- Botão para cadastrar o usuário -->
-            <button id="cadastrar" (click)="cadastrarUsuario()">Cadastrar Usuário</button>
-
+      <div class="box form-box">
+        <h2>Cadastre seu Usuário</h2>
+        <!-- Formulário de cadastro de usuário -->
+        <input type="text" id="nome" name="nomeUsuario" [(ngModel)]="novoUsuario.nomeUsuario" placeholder="Nome">
+        <div class="input-group">
+          <input type="number" id="idade" name="idade" [(ngModel)]="novoUsuario.idade" placeholder="Idade" class="input-idade">
+          <input type="text" id="telefone" name="telefone" [(ngModel)]="novoUsuario.telefone" placeholder="Telefone" class="input-telefone" maxlength="15">
+        </div>
+        <input type="text" id="endereco" name="endereco" [(ngModel)]="novoUsuario.endereco" placeholder="Endereço">
+        <div class="input-group">
+          <input type="text" id="numero" name="numero" [(ngModel)]="novoUsuario.numero" placeholder="Número">
+          <input type="text" id="cep" name="cep" [(ngModel)]="novoUsuario.cep" placeholder="CEP">
+        </div>
+        <h3>Selecione o Signo</h3>
+        <div class="signo-container">
+          <div *ngFor="let signo of signos" class="signo-item" 
+               [style.backgroundColor]="signo.cor" (click)="selecionarSigno(signo.nome)">
+            <span class="signo-icone">{{ signo.icone }}</span>
+            <p>{{ signo.nome }}</p>
           </div>
-          
-        
-        <div class="box users-box">
-            
-            <h2>Usuários Cadastrados</h2>
-            <input type="text" placeholder="Pesquise pelo nome">
-            <div id="users-list"></div>
         </div>
+        <h3>Não sabe seu signo?</h3>
+        <button id="sabsigno" (click)="abrirAgenda()">Clique aqui e descubra</button>
+        <input type="date" id="dataEscolhida" style="display:none;" (change)="descobrirSigno($event)">
+        <div id="resultado">{{ resultado }}</div>
         
-        <div class="box history-box">
-            <h2>Histórico</h2>
-            <input type="text" placeholder="Pesquise pelo nome">
-            <div id="history-list"></div>
+        <!-- Botão para cadastrar o usuário -->
+        <button id="cadastrar" (click)="cadastrarUsuario()">Cadastrar Usuário</button>
+      </div>    
+      <div class="box users-box">
+        <h2>Usuários Cadastrados</h2>
+        <!-- Campo de busca para filtrar os usuários -->
+        <input type="text" [(ngModel)]="searchNome" (input)="onSearch()" placeholder="Pesquisar usuário">
+
+        <div id="users-list" class="scroll-container">
+          <div *ngFor="let usuario of filterUsuarios()" class="user-card">
+
+
+            <div class="user-info">
+              <span class="user-name">{{ usuario.nomeUsuario }}</span>
+              <p><strong>Idade:</strong> {{ usuario.idade }}</p>
+              <p><strong>Telefone:</strong> {{ usuario.telefone }}</p>
+              <p><strong>Endereço:</strong> {{ usuario.endereco }}, Nº {{ usuario.numero }} - CEP: {{ usuario.cep }}</p>
+            </div>
+          </div>
         </div>
+      </div>   
+      <div class="box history-box">
+        <h2>Histórico</h2>
+        <input type="text" placeholder="Pesquise pelo nome" [(ngModel)]="searchNome">
+        <div id="history-list" class="scroll-container">
+          <div *ngFor="let match of filterMatchs()" class="match-card">
+            <div class="match-info">
+              <p><strong>Usuário 1:</strong> {{ match.usuario1 }}</p>
+              <p><strong>Usuário 2:</strong> {{ match.usuario2 }}</p>
+              <p><strong>Compatibilidade:</strong> {{ match.compatibilidade }}%</p>
+              <p><strong>Distância:</strong> {{ match.distancia }} km</p>
+              <p><strong>Mensagem:</strong> {{ match.mensagem }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-
+  
     <footer class="footer">
-        <p>&copy; 2025 Cadastro de Usuários. Todos os direitos reservados.</p>
+      <p>&copy; 2025 Cadastro de Usuários. Todos os direitos reservados.</p>
     </footer>
-
+  </div>
 </body>
+</html>

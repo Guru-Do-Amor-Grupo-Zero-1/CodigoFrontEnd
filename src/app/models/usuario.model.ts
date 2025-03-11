@@ -1,10 +1,10 @@
 export interface Usuario {
-  id?: number;  // `id` é opcional
-  nome: string;
+  id?: number;  // opcional
+  nomeUsuario: string;  // Alterado de "nome" para "nomeUsuario"
   idade: number;
-  telefone: string;  // `telefone` é do tipo `string` para armazenar números com formatação
+  telefone: string;
   endereco: string;
   numero: string;
   cep: string;
-  signo?: string;  // `signo` é opcional
+  signoUsuario?: string;
 }
