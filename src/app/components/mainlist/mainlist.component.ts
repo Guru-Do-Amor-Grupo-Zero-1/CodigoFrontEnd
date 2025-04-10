@@ -5,6 +5,7 @@ import { UsuarioService } from '../../services/usuario.service';
 import { Usuario } from '../../models/usuario.model';
 import { MatchService } from '../../services/match.service';
 import { MatchResponse } from '../../models/match.mode';
+import { MainlistModule } from './mainlist.module';
 import Swal from 'sweetalert2';
 @Component({
   selector: 'app-mainlist',

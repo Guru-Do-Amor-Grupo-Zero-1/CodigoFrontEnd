@@ -1,12 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';  // Importando o FormsModule
-import { MainlistComponent } from './mainlist.component';
+import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { MainlistComponent } from './mainlist.component';
 
 @NgModule({
-  declarations: [MainlistComponent],
-  imports: [CommonModule, FormsModule,HttpClientModule],
-  exports: [MainlistComponent]
+  imports: [
+    CommonModule,
+    FormsModule,
+    HttpClientModule,
+    MainlistComponent // Importação correta de um componente standalone
+  ],
+  exports: [MainlistComponent] // Agora ele pode ser exportado corretamente
 })
 export class MainlistModule {}
