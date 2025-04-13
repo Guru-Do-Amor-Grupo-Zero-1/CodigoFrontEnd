@@ -1,0 +1,42 @@
+name: CI/CD para Frontend Angular
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clonar repositório
+        uses: actions/checkout@v3
+
+      - name: Instalar Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Instalar dependências do Angular
+        run: npm install
+
+      - name: Build do projeto Angular (produção)
+        run: npm run build --prod
+
+      - name: Configurar chave SSH para acessar a VM
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.GCP_SSH_KEY }}" | tr -d '\r' > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.GCP_VM_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Enviar arquivos do build para a VM
+        run: |
+          scp -r dist/guru_do_amor/* ${{ secrets.GCP_VM_USER }}@${{ secrets.GCP_VM_HOST }}:/var/www/html/
+
+      - name: Reiniciar nginx 
+        run: |
+          ssh ${{ secrets.GCP_VM_USER }}@${{ secrets.GCP_VM_HOST }} << 'EOF'
+            sudo systemctl restart nginx
+          EOF
