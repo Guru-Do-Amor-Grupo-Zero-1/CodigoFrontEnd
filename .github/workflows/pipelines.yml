@@ -1,4 +1,4 @@
-name: CI/CD para Frontend Angular
+name: CI/CD para Frontend Angular 
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  build_and_deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -18,25 +18,31 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Instalar dependências do Angular
+      - name: Instalar dependências
         run: npm install
 
-      - name: Build do projeto Angular (produção)
+      - name: Build do Angular
         run: npm run build --prod
 
-      - name: Configurar chave SSH para acessar a VM
+      - name: Configurar chave SSH
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.GCP_SSH_KEY }}" | tr -d '\r' > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H ${{ secrets.GCP_VM_HOST }} >> ~/.ssh/known_hosts
 
-      - name: Enviar arquivos do build para a VM
+      - name: Enviar arquivos para a VM
         run: |
-          scp -r dist/guru_do_amor/* ${{ secrets.GCP_VM_USER }}@${{ secrets.GCP_VM_HOST }}:/var/www/html/
+          scp -r dist/guru_do_amor ${{ secrets.GCP_VM_USER }}@${{ secrets.GCP_VM_HOST }}:/home/${{ secrets.GCP_VM_USER }}/frontend/dist
+          scp Dockerfile ${{ secrets.GCP_VM_USER }}@${{ secrets.GCP_VM_HOST }}:/home/${{ secrets.GCP_VM_USER }}/frontend/
+          scp default.conf ${{ secrets.GCP_VM_USER }}@${{ secrets.GCP_VM_HOST }}:/home/${{ secrets.GCP_VM_USER }}/frontend/
 
-      - name: Reiniciar nginx 
+      - name: Build e restart do container na VM
         run: |
           ssh ${{ secrets.GCP_VM_USER }}@${{ secrets.GCP_VM_HOST }} << 'EOF'
-            sudo systemctl restart nginx
+            cd ~/frontend
+            docker stop frontend || true
+            docker rm frontend || true
+            docker build -t angular-frontend .
+            docker run -d -p 80:80 --name frontend angular-frontend
           EOF
