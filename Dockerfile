@@ -2,7 +2,6 @@ FROM nginx:stable
 
 RUN apt-get update && apt-get install -y curl
 
-# Corrigido aqui: copiando a pasta 'browser'
 COPY dist/guru_do_amor/browser /usr/share/nginx/html
 
 COPY default.conf /etc/nginx/conf.d/default.conf
