@@ -19,17 +19,17 @@ jobs:
       - name: Adicionar chave SSH para acesso à VM
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          echo "${{ secrets.GCP_SSH_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H ${{ secrets.VM_HOST }} >> ~/.ssh/known_hosts
+          ssh-keyscan -H ${{ secrets.GCP_VM_HOST }} >> ~/.ssh/known_hosts
 
       - name: Enviar projeto Angular para a VM
         run: |
-          scp -r ./ ${{ secrets.VM_USER }}@${{ secrets.VM_HOST }}:/home/${{ secrets.VM_USER }}/frontend/
+          scp -r ./ ${{ secrets.VM_USER }}@${{ secrets.GSP_VM_HOST }}:/home/${{ secrets.GCP_VM_USER }}/frontend/
 
       - name: Acessar VM e rodar docker build + run
         run: |
-          ssh ${{ secrets.VM_USER }}@${{ secrets.VM_HOST }} << 'EOF'
+          ssh ${{ secrets.GCP_VM_USER }}@${{ secrets.GCP_VM_HOST }} << 'EOF'
             cd ~/frontend
             docker stop frontend || true
             docker rm frontend || true
