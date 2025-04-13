@@ -1,4 +1,4 @@
-name: CI/CD para Frontend Angular
+name: CI/CD para Frontend Angular 
 
 on:
   push:
@@ -22,7 +22,7 @@ jobs:
         run: npm install
 
       - name: Build do Angular
-        run: npm run build --configuration production
+        run: npm run build --prod
 
       - name: Configurar chave SSH
         run: |
@@ -33,8 +33,7 @@ jobs:
 
       - name: Enviar arquivos para a VM
         run: |
-          ssh ${{ secrets.GCP_VM_USER }}@${{ secrets.GCP_VM_HOST }} "mkdir -p ~/frontend/dist/guru_do_amor"
-          scp -r dist/guru_do_amor/* ${{ secrets.GCP_VM_USER }}@${{ secrets.GCP_VM_HOST }}:/home/${{ secrets.GCP_VM_USER }}/frontend/dist/guru_do_amor/
+          scp -r dist/guru_do_amor ${{ secrets.GCP_VM_USER }}@${{ secrets.GCP_VM_HOST }}:/home/${{ secrets.GCP_VM_USER }}/frontend/dist
           scp Dockerfile ${{ secrets.GCP_VM_USER }}@${{ secrets.GCP_VM_HOST }}:/home/${{ secrets.GCP_VM_USER }}/frontend/
           scp default.conf ${{ secrets.GCP_VM_USER }}@${{ secrets.GCP_VM_HOST }}:/home/${{ secrets.GCP_VM_USER }}/frontend/
 
