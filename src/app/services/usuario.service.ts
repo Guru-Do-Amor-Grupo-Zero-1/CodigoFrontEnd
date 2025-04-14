@@ -8,7 +8,7 @@ import { Usuario } from '../models/usuario.model'; // Ajuste o caminho se necess
 })
 export class UsuarioService {
 
-  private apiUrl = '/api/usuario'; // URL do seu back-end Java
+  private apiUrl = 'http://10.128.0.5:5000/api/usuario'; // URL do seu back-end Java
 
   constructor(private http: HttpClient) { }
 
