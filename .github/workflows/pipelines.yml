@@ -44,5 +44,5 @@ jobs:
             docker stop frontend || true
             docker rm frontend || true
             docker build -t angular-frontend .
-            docker run -d -p 80:80 --name frontend angular-frontend
+            docker run -d -p 8080:8080 -p 443:443 --name frontend angular-frontend
           EOF

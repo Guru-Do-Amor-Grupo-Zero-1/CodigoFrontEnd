@@ -9,7 +9,7 @@ import { MatchResponse } from '../models/match.mode';
   providedIn: 'root',
 })
 export class MatchService {
-  private apiUrl = 'http://localhost:8080/api/match'; // Substitua com o endpoint real
+  private apiUrl = 'http://10.128.0.5:5000/api/match'; // Substitua com o endpoint real
 
   constructor(private http: HttpClient) {}
 
