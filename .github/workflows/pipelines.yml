@@ -34,6 +34,7 @@ jobs:
       - name: Enviar arquivos para a VM
         run: |
           scp -r dist/guru_do_amor ${{ secrets.GCP_VM_USER }}@${{ secrets.GCP_VM_HOST }}:/home/${{ secrets.GCP_VM_USER }}/frontend/dist
+          scp -r certs ${{ secrets.GCP_VM_USER }}@${{ secrets.GCP_VM_HOST }}:/home/${{ secrets.GCP_VM_USER }}/frontend/
           scp Dockerfile ${{ secrets.GCP_VM_USER }}@${{ secrets.GCP_VM_HOST }}:/home/${{ secrets.GCP_VM_USER }}/frontend/
           scp default.conf ${{ secrets.GCP_VM_USER }}@${{ secrets.GCP_VM_HOST }}:/home/${{ secrets.GCP_VM_USER }}/frontend/
 
@@ -43,6 +44,6 @@ jobs:
             cd ~/frontend
             docker stop frontend || true
             docker rm frontend || true
-            docker build -t angular-frontend .
-            docker run -d -p 8080:8080 -p 443:443 --name frontend angular-frontend
+            docker build --no-cache -t angular-frontend .
+            docker run -d -p 80:80 -p 443:443 --name frontend angular-frontend
           EOF
